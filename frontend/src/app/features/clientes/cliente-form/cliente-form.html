@@ -1,0 +1,138 @@
+<section class="page-head">
+  <div>
+    <h1>{{ isEdit() ? 'Editar cliente' : 'Nuevo cliente' }}</h1>
+    <p class="subtitle">
+      {{ isEdit() ? 'Modifica los datos del cliente y guarda los cambios.' : 'Completa el formulario para registrar un cliente.' }}
+    </p>
+  </div>
+  <a routerLink="/clientes" class="btn btn-ghost">← Volver al listado</a>
+</section>
+
+<div class="card">
+  @if (loading()) {
+    <p class="state-msg">Cargando datos del cliente…</p>
+  } @else {
+    @if (serverError()) {
+      <div class="alert alert-error">{{ serverError() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+      <div class="grid">
+        <div class="form-group">
+          <label>Tipo de documento *</label>
+          <select class="form-control" formControlName="tipoDocumento"
+                  [class.is-invalid]="invalido('tipoDocumento')">
+            <option value="" disabled>Seleccione…</option>
+            @for (t of tiposDocumento; track t.value) {
+              <option [value]="t.value">{{ t.label }}</option>
+            }
+          </select>
+          @if (invalido('tipoDocumento')) {
+            <div class="field-error">El tipo de documento es obligatorio.</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Número de documento *</label>
+          <input class="form-control" formControlName="numeroDocumento"
+                 [class.is-invalid]="invalido('numeroDocumento')" maxlength="20" />
+          @if (invalido('numeroDocumento')) {
+            <div class="field-error">Entre 3 y 20 caracteres; solo letras, números y guiones.</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Nombres *</label>
+          <input class="form-control" formControlName="nombres"
+                 [class.is-invalid]="invalido('nombres')" maxlength="100" />
+          @if (invalido('nombres')) {
+            <div class="field-error">Ingresa los nombres (2 a 100 caracteres).</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Apellidos *</label>
+          <input class="form-control" formControlName="apellidos"
+                 [class.is-invalid]="invalido('apellidos')" maxlength="100" />
+          @if (invalido('apellidos')) {
+            <div class="field-error">Ingresa los apellidos (2 a 100 caracteres).</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Fecha de nacimiento *</label>
+          <input type="date" class="form-control" formControlName="fechaNacimiento"
+                 [class.is-invalid]="invalido('fechaNacimiento')" />
+          @if (invalido('fechaNacimiento')) {
+            <div class="field-error">La fecha de nacimiento es obligatoria.</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Género *</label>
+          <select class="form-control" formControlName="genero"
+                  [class.is-invalid]="invalido('genero')">
+            <option value="" disabled>Seleccione…</option>
+            @for (g of generos; track g.value) {
+              <option [value]="g.value">{{ g.label }}</option>
+            }
+          </select>
+          @if (invalido('genero')) {
+            <div class="field-error">El género es obligatorio.</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Teléfono *</label>
+          <input class="form-control" formControlName="telefono"
+                 [class.is-invalid]="invalido('telefono')" maxlength="20" />
+          @if (invalido('telefono')) {
+            <div class="field-error">Entre 7 y 20 dígitos (admite +, - y espacios).</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Correo electrónico *</label>
+          <input type="email" class="form-control" formControlName="correoElectronico"
+                 [class.is-invalid]="invalido('correoElectronico')" maxlength="150" />
+          @if (invalido('correoElectronico')) {
+            <div class="field-error">Ingresa un correo válido.</div>
+          }
+        </div>
+
+        <div class="form-group form-group--wide">
+          <label>Dirección *</label>
+          <input class="form-control" formControlName="direccion"
+                 [class.is-invalid]="invalido('direccion')" maxlength="200" />
+          @if (invalido('direccion')) {
+            <div class="field-error">La dirección es obligatoria (3 a 200 caracteres).</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Ciudad *</label>
+          <input class="form-control" formControlName="ciudad"
+                 [class.is-invalid]="invalido('ciudad')" maxlength="100" />
+          @if (invalido('ciudad')) {
+            <div class="field-error">La ciudad es obligatoria.</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Estado</label>
+          <select class="form-control" formControlName="estado">
+            <option [ngValue]="true">Activo</option>
+            <option [ngValue]="false">Inactivo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/clientes" class="btn btn-ghost">Cancelar</a>
+        <button type="submit" class="btn btn-primary" [disabled]="saving()">
+          {{ saving() ? 'Guardando…' : (isEdit() ? 'Guardar cambios' : 'Crear cliente') }}
+        </button>
+      </div>
+    </form>
+  }
+</div>
