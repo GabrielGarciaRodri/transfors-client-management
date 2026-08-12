@@ -1,0 +1,6 @@
+@Transfors.Clientes.Api_HostAddress = http://localhost:5246
+
+GET {{Transfors.Clientes.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
