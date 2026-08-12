@@ -1,0 +1,79 @@
+<section class="page-head">
+  <div>
+    <h1>Clientes</h1>
+    <p class="subtitle">Gestión de clientes — crear, consultar, editar y eliminar.</p>
+  </div>
+  <a routerLink="/clientes/nuevo" class="btn btn-primary">+ Nuevo cliente</a>
+</section>
+
+<div class="card">
+  <div class="toolbar">
+    <input
+      type="text"
+      class="form-control toolbar__search"
+      placeholder="Buscar por nombre, apellido, documento, correo o ciudad…"
+      [(ngModel)]="search"
+      (ngModelChange)="onSearchChange()" />
+
+    <select class="form-control toolbar__filter" [(ngModel)]="estadoFiltro" (ngModelChange)="load()">
+      <option value="">Todos los estados</option>
+      <option value="true">Activos</option>
+      <option value="false">Inactivos</option>
+    </select>
+
+    <button class="btn btn-ghost" (click)="load()">Actualizar</button>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <p class="state-msg">Cargando clientes…</p>
+  } @else if (clientes().length === 0) {
+    <p class="state-msg">No hay clientes que coincidan con la búsqueda.</p>
+  } @else {
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Documento</th>
+            <th>Nombre completo</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Ciudad</th>
+            <th>Estado</th>
+            <th class="col-actions">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of clientes(); track c.id) {
+            <tr>
+              <td>
+                <span class="doc-type">{{ c.tipoDocumentoDescripcion }}</span>
+                <strong>{{ c.numeroDocumento }}</strong>
+              </td>
+              <td>{{ c.nombres }} {{ c.apellidos }}</td>
+              <td>{{ c.correoElectronico }}</td>
+              <td>{{ c.telefono }}</td>
+              <td>{{ c.ciudad }}</td>
+              <td>
+                @if (c.estado) {
+                  <span class="badge badge-activo">Activo</span>
+                } @else {
+                  <span class="badge badge-inactivo">Inactivo</span>
+                }
+              </td>
+              <td class="col-actions">
+                <a [routerLink]="['/clientes', c.id, 'editar']" class="btn btn-ghost btn-sm">Editar</a>
+                <button class="btn btn-danger btn-sm" (click)="eliminar(c)">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="count">{{ clientes().length }} cliente(s)</p>
+  }
+</div>

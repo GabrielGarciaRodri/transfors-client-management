@@ -1,0 +1,67 @@
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+
+  h1 { margin: 0; font-size: 1.6rem; }
+  .subtitle { margin: 0.25rem 0 0; color: var(--muted); font-size: 0.9rem; }
+}
+
+.toolbar {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1.1rem;
+  flex-wrap: wrap;
+}
+.toolbar__search { flex: 1 1 320px; }
+.toolbar__filter { flex: 0 0 190px; }
+
+.state-msg {
+  text-align: center;
+  color: var(--muted);
+  padding: 1.5rem 0;
+}
+
+.table-wrap { overflow-x: auto; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+
+  th, td {
+    text-align: left;
+    padding: 0.65rem 0.7rem;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  th {
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    background: #fafbfc;
+  }
+  tbody tr:hover { background: #f7f9fc; }
+}
+
+.doc-type {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.col-actions {
+  text-align: right;
+  white-space: nowrap;
+
+  .btn { margin-left: 0.35rem; }
+}
+
+.count {
+  margin: 0.9rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
